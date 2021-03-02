@@ -236,6 +236,8 @@ public class SinglyLinkedListWithoutTail <T> implements Iterable <T> {
 		return -1;
 	}
 
+
+	//Reverses linked list and assigns new head
 	public void reverse(){
 		if (isEmpty())
 			return;
