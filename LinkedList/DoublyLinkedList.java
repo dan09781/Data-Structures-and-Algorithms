@@ -219,12 +219,14 @@ public class DoublyLinkedList <T> implements Iterable <T> {
 			for (i=0,trav=head;i<size;i++){
 			if (trav.data == null)
 				return i;
+			trav=trav.next;
 			}
 		}
 		else{
 			for (i=0,trav=head;i<size;i++){
 			if (trav.data.equals(value))
 				return i;
+			trav=trav.next;
 			}
 		}
 		return -1;
