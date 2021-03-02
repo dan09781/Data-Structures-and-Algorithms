@@ -48,17 +48,17 @@ public class Main{
 		//for (Integer val:sll)
 		//	System.out.println(val);
 
-		/*sll.insertAt(5,12);
+		sll.insertAt(6,12);
 		for (Integer val:sll)
-			System.out.println(val);*/
+			System.out.println(val);
 
-		System.out.println(" ");
+		/*System.out.println(" ");
 
 		sll.removeAt(5);
 		for (Integer val:sll)
 			System.out.println(val);
 
-		System.out.println(" ");
+		System.out.println(" ");*/
 
 		//sll.clear();
 
@@ -66,11 +66,11 @@ public class Main{
 		//	System.out.println(val);
 
 		//System.out.println(sll.indexOf(6));
-		System.out.println(sll.indexOf(5));
-		System.out.println(sll.indexOf(4));
-		System.out.println(sll.indexOf(3));
-		System.out.println(sll.indexOf(2));
-		System.out.println(sll.indexOf(1));
+		//System.out.println(sll.indexOf(5));
+		//System.out.println(sll.indexOf(4));
+		//System.out.println(sll.indexOf(3));
+		//System.out.println(sll.indexOf(2));
+		//System.out.println(sll.indexOf(1));
 
 	}
 }
