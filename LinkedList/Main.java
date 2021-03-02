@@ -12,11 +12,7 @@ public class Main{
 		dll.push_front(6);
 		for (Integer val:dll)
 			System.out.println(val);
-		dll.pop_front();
-		dll.pop_front();
-		dll.pop_front();
-		dll.pop_front();
-		dll.pop_front();
+		dll.insertAt(5,12);
 		for (Integer val:dll)
 			System.out.println(val);
 	}

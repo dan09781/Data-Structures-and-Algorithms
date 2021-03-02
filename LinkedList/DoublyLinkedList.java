@@ -77,7 +77,7 @@ public class DoublyLinkedList <T> implements Iterable <T> {
 		head = head.next;
 		size--;
 
-		//Check if list is gonna be empty after deletion to prevent null pointer exception
+		//Check if list is empty after deletion to prevent null pointer exception
 		if (isEmpty())
 			tail = null;
 		else{
@@ -86,6 +86,88 @@ public class DoublyLinkedList <T> implements Iterable <T> {
 		}	
 		return data;
 	}
+	////////////////////TESTED UP TO HERE
+
+
+
+	public void push_back(T value){
+		//Check if list is empty
+		if (isEmpty())
+			//If list is empty, assign both head and tail pointers to the new node
+			head = tail = new Node<T>(value, null, null);
+		else{
+			//If list is not empty, assign only the tail pointer to the new node and prev of new 
+			//node to the old tail
+			tail.next = new Node<T>(value, tail, null);
+			tail = tail.next;
+		} 
+		size++;
+	}
+
+	public T pop_back(){
+		//Check if list is empty
+		if (isEmpty()){
+			throw new RuntimeException("Empty list");
+		}
+		//If list is not empty, remove tail and reassign tail
+		T data = tail.data;
+		tail = tail.prev;
+		size--;
+
+		//Check if list is empty after deletion to prevent null pointer exception
+		if (isEmpty())
+			head = null;
+		else{
+			tail.next.prev = null;
+			tail.next = null;
+		}	
+		return data;
+	}
+
+	//Returns value of head
+	public T getFront(){
+		if (isEmpty()){
+			throw new RuntimeException("Empty list");
+		}
+		return head.data;
+	}
+
+	//Returns value of tail
+	public T getBack(){
+		if (isEmpty()){
+			throw new RuntimeException("Empty list");
+		}
+		return tail.data;
+	}
+
+	//Insert value at index
+	//Index can be ranged from 0 to size (size is allowed; Same functionality as push_back)
+	public void insertAt(int index, T value){
+		//Check for index out of bound exception
+		if (index < 0 || index > size)
+			throw new IndexOutOfBoundsException("Not a valid index");
+		else if (index == 0){
+			push_front(value);
+			return;
+		}
+		else if (index == size){
+			push_back(value);
+			return;
+		}
+
+		int i;
+		Node<T> trav;
+		for (i=0,trav=head;i<size;i++){
+			if (i==index){
+				trav.prev.next = new Node<T>(value, trav.prev, trav);
+				trav.prev = trav.prev.next;
+				size++;
+				return;
+			}
+			trav=trav.next;
+		}
+	}
+
 
 
 
