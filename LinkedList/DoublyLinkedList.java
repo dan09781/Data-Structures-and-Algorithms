@@ -73,14 +73,17 @@ public class DoublyLinkedList <T> implements Iterable <T> {
 			throw new RuntimeException("Empty list");
 		}
 		//If list is not empty, remove head and reassign head
-		T data;
+		T data = head.data;
 		head = head.next;
-		data = head.prev.data;
-		head.prev.next = null;
-		head.prev = null;
+		size--;
+
+		//Check if list is gonna be empty after deletion to prevent null pointer exception
 		if (isEmpty())
 			tail = null;
-		size--;
+		else{
+			head.prev.next = null;
+			head.prev = null;
+		}	
 		return data;
 	}
 

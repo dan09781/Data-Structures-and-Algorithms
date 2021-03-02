@@ -17,7 +17,6 @@ public class Main{
 		dll.pop_front();
 		dll.pop_front();
 		dll.pop_front();
-		dll.pop_front();
 		for (Integer val:dll)
 			System.out.println(val);
 	}
