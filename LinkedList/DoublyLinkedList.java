@@ -168,6 +168,68 @@ public class DoublyLinkedList <T> implements Iterable <T> {
 		}
 	}
 
+	public T removeAt(int index){
+		//Check for index out of bound exception
+		if (index < 0 || index >= size)
+			throw new IndexOutOfBoundsException("Not a valid index");
+		else if (index == 0)
+			return pop_front();
+		else if (index == size-1)
+			return pop_back();
+		int i;
+		Node<T> trav;
+		for (i=0,trav=head;i<size;i++){
+			if (i==index){
+				trav.prev.next = trav.next;
+				trav.next.prev = trav.prev;
+				T data = trav.data;
+				//memory cleanup 
+				trav.prev = trav.next = null;
+				trav.data = null;
+				size--;
+				return data;
+			}
+			trav=trav.next;
+		}
+		return null;
+	}
+
+	public void clear(){
+		if (isEmpty())
+			return;
+		Node<T> trav;
+		int i;
+		while (size > 0)
+			pop_front();
+
+		//memory cleanup
+		head = tail = null;
+	}
+
+
+	//Returns 0-based index of a given value
+	public int indexOf(T value){
+		if (isEmpty())
+			throw new IndexOutOfBoundsException("Invalid index");
+
+		int i;
+		Node<T> trav;
+		// We need to do a null check on value to avoid NPE when using equals()
+		if (value == null){
+			for (i=0,trav=head;i<size;i++){
+			if (trav.data == null)
+				return i;
+			}
+		}
+		else{
+			for (i=0,trav=head;i<size;i++){
+			if (trav.data.equals(value))
+				return i;
+			}
+		}
+		return -1;
+	}
+
 
 
 

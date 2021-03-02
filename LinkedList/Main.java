@@ -12,8 +12,25 @@ public class Main{
 		dll.push_front(6);
 		for (Integer val:dll)
 			System.out.println(val);
+
+		System.out.println(" ");
+
 		dll.insertAt(5,12);
 		for (Integer val:dll)
 			System.out.println(val);
+
+		System.out.println(" ");
+
+		dll.removeAt(3);
+		for (Integer val:dll)
+			System.out.println(val);
+
+		System.out.println(" ");
+
+		dll.clear();
+
+		for (Integer val:dll)
+			System.out.println(val);
+
 	}
 }
