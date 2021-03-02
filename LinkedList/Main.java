@@ -32,7 +32,7 @@ public class Main{
 		for (Integer val:dll)
 			System.out.println(val);*/
 
-		SinglyLinkedList<Integer> sll = new SinglyLinkedList<>();
+		SinglyLinkedListWithoutTail<Integer> sll = new SinglyLinkedListWithoutTail<>();
 		sll.push_front(1);
 		sll.push_front(2);
 		sll.push_front(3);
@@ -52,13 +52,18 @@ public class Main{
 		for (Integer val:sll)
 			System.out.println(val);
 
-		/*System.out.println(" ");
+		System.out.println(" ");
 
 		sll.removeAt(5);
 		for (Integer val:sll)
 			System.out.println(val);
 
-		System.out.println(" ");*/
+		System.out.println(" ");
+
+		sll.reverse();
+		for (Integer val:sll)
+			System.out.println(val);
+
 
 		//sll.clear();
 

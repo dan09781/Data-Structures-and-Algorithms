@@ -236,6 +236,21 @@ public class SinglyLinkedListWithoutTail <T> implements Iterable <T> {
 		return -1;
 	}
 
+	public void reverse(){
+		if (isEmpty())
+			return;
+		Node<T> cur = head;
+		Node<T> prev = null;
+		while (cur!=null){
+			Node<T> temp = cur.next;
+			cur.next = prev;
+			prev=cur;
+			cur=temp;
+		}
+		head=prev;
+		return;	
+	}
+
 
 
 
