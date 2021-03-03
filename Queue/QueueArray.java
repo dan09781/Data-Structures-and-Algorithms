@@ -11,16 +11,16 @@ public class QueueArray implements Iterable<Integer>{
 	private int read = -1;
 	private int write = -1;
 	private int[] arr;
+
+	//Constructors
 	QueueArray(){
 		this.arr = new int[defaultArrSize];
-		//read=write=-1;
 	}
 	QueueArray(int size){
 		if (size <= 0){
 			throw new RuntimeException("size must be greater than 0");
 		}
 		this.arr = new int[size];
-		//read=write=-1;
 	}
 
 	//These 2 fun-ns accessors for debugging purposes
@@ -32,7 +32,10 @@ public class QueueArray implements Iterable<Integer>{
 		return write;
 	}
 
+
+	//Enqueues into the queue
 	public void enqueue(int data){
+		//If queue is empty, assign a specific way to enqueue
 		if (isEmpty()){
 			write=0;
 			read=0;
@@ -40,6 +43,7 @@ public class QueueArray implements Iterable<Integer>{
 			write = (write+1)%arr.length;
 			return;
 		}
+		//If queue is full, don't enqueue
 		if (isFull()){
 			return;
 		}
@@ -74,6 +78,11 @@ public class QueueArray implements Iterable<Integer>{
 			//This whole thing is definition of custom iterator class
 			private int numElements = getNumElements();
 			private int itIndex = read;
+
+			//Get number of elements in the queue for iteration purposes.
+			//If we just use read and write in iterator, cannot distinguish between when
+			//no elements have been iterated and when all elements have been iterated
+			//because the only condition we can use in hasNext() is read!=write
 			public int getNumElements(){
 				if (isFull())
 					return arr.length;
