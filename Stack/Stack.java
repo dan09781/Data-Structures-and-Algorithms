@@ -39,7 +39,7 @@ public class Stack<T> implements Iterable<T>{
 		return list.size() == 0;
 	}
 
-	@Override java.util.Iterator<T> iterator(){
+	@Override public java.util.Iterator<T> iterator(){
 		return list.iterator();
 	}
 }
