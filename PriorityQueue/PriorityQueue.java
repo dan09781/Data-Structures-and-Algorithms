@@ -1,4 +1,5 @@
-//Priority Queue implementation with a binary min heap
+//Min Priority Queue implementation with a binary min heap
+
 import java.util.*;
 
 
@@ -13,6 +14,7 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 	PriorityQueue(List<T> arr){
 		int heapSize = arr.size();
 		heap = new ArrayList<T>(heapSize);
+
 		//For collections, we can just do this
 		heap.addAll(arr);
 
@@ -32,6 +34,77 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 			bubbleDown(i);
 		}
 	}
+
+	//insert value onto heap and bubble up to satisfy heap invariant
+	//not accepting null
+	public void insert(T elem){
+		if (elem == null)
+			throw new IllegalArgumentException("Elements in the heap can't be null!");
+
+		//Add the element to the end of heap
+		heap.add(elem);
+		//Bubble up until heap invariant satisfied
+		bubbleUp(heap.size()-1);
+	}
+
+	//Removes item at index i
+	//In this implementation, we are doing a naive O(n) removal
+	//since we are not using hash table.
+	//Assume this implementation cannot afford the overhead of a hash table implementation
+	public T removeAt(int i){
+		if (isEmpty())
+			throw new RuntimeException("Empty priority queue!!");
+		if (i<0||i>=heap.size())
+			throw new IndexOutOfBoundsException();
+		//Swap the node to be removed with the last node
+		T data = heap.get(i);
+		swap(i,heap.size()-1);
+
+		//remove the last node which is now the node that we want removed
+		heap.remove(heap.size()-1);
+
+		//Bubble down
+		bubbleDown(i);
+
+		return data;
+
+	}
+
+	//Removes the first occurence of elem
+	//Don't do anything if elem does not exist in heap
+	public T remove(T elem){
+		if (isEmpty())
+			throw new RuntimeException("Empty priority queue!!");
+		int i = heap.indexOf(elem);
+		T data = null;
+		if (i>=0){
+			data = removeAt(i);
+		}
+		return data;
+	}
+
+	//Some trivial getters and simple functions
+	public T getMin(){
+		return heap.get(0);
+	}
+
+	public int getSize(){
+		return heap.size();
+	}
+
+	public boolean isEmpty(){
+		return heap.size()==0;
+	}
+
+
+	//Similar to getMin() but in this function, we actually remove the min
+	public T extractMin(){
+		if (isEmpty())
+			throw new RuntimeException("Priority queue is empty!!");
+		T data = removeAt(0);
+		return data;
+	}
+
 
 	//Bubbling down to satisfy heap invariant
 	private void bubbleDown(int i){
@@ -71,6 +144,20 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 			}
 			i = minIndex;
 		}	
+	}
+
+	private void bubbleUp(int i){
+		int parent = (i-1)/2;
+		int heapSize = heap.size();
+		while (parent>=0&&parent<heapSize){
+			//if parent is less than the current node, we're done. Return out of fun-n
+			if (heap.get(parent).compareTo(heap.get(i))<=0)
+				return;
+			//if parent is larger, swap
+			swap(parent,i);
+			//Set new parent index value
+			parent=(parent-1)/2;
+		}
 	}
 
 	private void swap(int i, int j){
