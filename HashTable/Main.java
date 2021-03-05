@@ -12,7 +12,7 @@ public class Main{
 		ht.put(5,"annyung");
 		ht.put(5,"annyunghasaeyo");
 
-		//ht.remove()
+		ht.remove(4);
 
 		System.out.println(ht);
 
