@@ -51,6 +51,7 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 	//In this implementation, we are doing a naive O(n) removal
 	//since we are not using hash table.
 	//Assume this implementation cannot afford the overhead of a hash table implementation
+	//With the the use of a hash table, we can do removal in O(logn)
 	public T removeAt(int i){
 		if (isEmpty())
 			throw new RuntimeException("Empty priority queue!!");
@@ -63,9 +64,26 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 		//remove the last node which is now the node that we want removed
 		heap.remove(heap.size()-1);
 
-		//Bubble down
-		bubbleDown(i);
+		//Find out if we have to bubble down or bubble up
+		int parent=(i-1)/2;
+		int left=2*i+1;
+		int right=2*i+2;
 
+		//Check first if the node at index i violates the heap invariant w.r.t its parent
+		//Check first for the parent index and if it is valid
+		if (parent<heap.size() && heap.get(parent).compareTo(heap.get(i))<0){
+			bubbleUp(i);
+		}
+		//If we want to delete the root node(parent does not exist) or heap invariant w.r.t parent
+		//is satisfied, check both left and right
+		//If either of left or right children is valid, then we have to check whether the current node
+		//is smaller than either the left child or the right child
+		else if (left<heap.size() && heap.get(i).compareTo(heap.get(left))<0){
+			bubbleDown(i);
+		} 
+		else if (right<heap.size() && heap.get(i).compareTo(heap.get(right))<0){
+			bubbleDown(i);
+		}
 		return data;
 
 	}
@@ -98,7 +116,7 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 
 
 	//Similar to getMin() but in this function, we actually remove the min
-	public T extractMin(){
+	public T extractMax(){
 		if (isEmpty())
 			throw new RuntimeException("Priority queue is empty!!");
 		T data = removeAt(0);

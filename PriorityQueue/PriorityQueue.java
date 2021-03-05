@@ -63,8 +63,26 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 		//remove the last node which is now the node that we want removed
 		heap.remove(heap.size()-1);
 
-		//Bubble down
-		bubbleDown(i);
+		//Find out if we have to bubble down or bubble up
+		int parent=(i-1)/2;
+		int left=2*i+1;
+		int right=2*i+2;
+
+		//Check first if the node at index i violates the heap invariant w.r.t its parent
+		//Check first for the parent index and if it is valid
+		if (parent<heap.size() && heap.get(i).compareTo(heap.get(parent))<0){
+			bubbleUp(i);
+		}
+		//If we want to delete the root node(parent does not exist) or heap invariant w.r.t parent
+		//is satisfied, check both left and right
+		//If either of left or right children is valid, then we have to check whether the current node
+		//is greater than either the left child or the right child
+		else if (left<heap.size() && heap.get(left).compareTo(heap.get(i))<0){
+			bubbleDown(i);
+		} 
+		else if (right<heap.size() && heap.get(right).compareTo(heap.get(i))<0){
+			bubbleDown(i);
+		}
 
 		return data;
 
@@ -77,6 +95,7 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 			throw new RuntimeException("Empty priority queue!!");
 		int i = heap.indexOf(elem);
 		T data = null;
+		//if elem exists in the heap
 		if (i>=0){
 			data = removeAt(i);
 		}
@@ -169,9 +188,37 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 	}
 
 
-	//public boolean isMinHeap(){	
-//
-//	}
+	public boolean isMinHeap(int i){	
+		if (i>=getSize())
+			return true;
+		int left = 2*i+1;
+		int right =2*i+2;
+		//if both left and right are valid indices
+		//We dont need to check both left and right. We just need to check one by one
+		/*
+		if (left<getSize() && right<getSize()){
+			//if left child or right child is greater than cur node, heap invariant not satisfied.
+			//return false.
+			if (heap.get(i).compareTo(heap.get(left))<0 || heap.get(i).compareTo(heap.get(right))<0)
+				return false;
+		}*/
+		//Check if left index is valid
+		if (left<getSize()){
+			//Check if cur node is greater or equal to the left child. If not, return false.
+			if (heap.get(left).compareTo(heap.get(i))<0)
+				return false;
+		}
+		//Check if right index is valid
+		if (right<getSize()){
+			//Check if cur node is greater or equal to the right child. If not, return false.
+			if (heap.get(right).compareTo(heap.get(i))<0)
+				return false;
+		}
+
+		//recurse over entire heap
+		return isMinHeap(left)&&isMinHeap(right);
+
+	}
 
 	@Override public java.util.Iterator<T> iterator(){
 		return new java.util.Iterator<T> (){
