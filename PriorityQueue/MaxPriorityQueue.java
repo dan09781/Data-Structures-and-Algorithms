@@ -8,8 +8,6 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 	private List<T> heap;
 
 	//Constructors
-	//Offering different ways to initialize PQ
-
 	//With the user providing an already existing collection of elements
 	MaxPriorityQueue(List<T> arr){
 		int heapSize = arr.size();
