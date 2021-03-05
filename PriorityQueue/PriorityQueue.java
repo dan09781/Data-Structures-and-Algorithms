@@ -155,7 +155,8 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 				return;
 			//if parent is larger, swap
 			swap(parent,i);
-			//Set new parent index value
+			//Set new parent index and i values
+			i=parent;
 			parent=(parent-1)/2;
 		}
 	}
