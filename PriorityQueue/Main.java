@@ -9,5 +9,23 @@ public class Main{
 		for (Integer val:pq){
 			System.out.println(val);
 		}
+
+		System.out.println(" ");
+		System.out.println(pq.isMaxHeap(0));
+		System.out.println(" ");
+
+		pq.insert(12);
+		pq.insert(39);
+		pq.insert(-2);
+		pq.insert(-5);
+		pq.insert(50);
+		//
+		pq.insert(0);
+
+
+		for (Integer val:pq){
+			System.out.println(val);
+		}
+		System.out.println(pq.isMaxHeap(0));
 	}
 }

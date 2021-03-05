@@ -23,7 +23,7 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 			heap.add(arr[i]);
 		}*/
 
-		//Build heap in O(n) time. This function builds min heap in worst cast O(n) time from going bottom-up.
+		//Build heap in O(n) time. This function builds max heap in worst cast O(n) time from going bottom-up.
 		//Considering all leaf nodes satisfy heap invariant, we can ignore them altogether as they won't be bubbling
 		//down at all. Since leaf nodes take up ~n/2 nodes, we can conclude that those ~n/2 nodes require 0 work. 
 		//Using this pattern, we see that there are ~n/(2^(j+1)) nodes where j is the height of the heap from bottom-up.
@@ -84,7 +84,7 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 	}
 
 	//Some trivial getters and simple functions
-	public T getMin(){
+	public T getMax(){
 		return heap.get(0);
 	}
 
@@ -147,15 +147,17 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 	}
 
 	private void bubbleUp(int i){
+		//get the index of parent
 		int parent = (i-1)/2;
 		int heapSize = heap.size();
 		while (parent>=0&&parent<heapSize){
-			//if parent is less than the current node, we're done. Return out of fun-n
-			if (heap.get(parent).compareTo(heap.get(i))<=0)
+			//if parent is greater than the current node, we're done. Return out of fun-n
+			if (heap.get(i).compareTo(heap.get(parent))<=0)
 				return;
-			//if parent is larger, swap
+			//if parent is smaller, swap
 			swap(parent,i);
 			//Set new parent index value
+			i=parent;
 			parent=(parent-1)/2;
 		}
 	}
@@ -168,9 +170,37 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 	}
 
 
-	//public boolean isMinHeap(){	
-//
-//	}
+	public boolean isMaxHeap(int i){	
+		if (i>=getSize())
+			return true;
+		int left = 2*i+1;
+		int right =2*i+2;
+		//if both left and right are valid indices
+		//We dont need to check both left and right. We just need to check one by one
+		/*
+		if (left<getSize() && right<getSize()){
+			//if left child or right child is greater than cur node, heap invariant not satisfied.
+			//return false.
+			if (heap.get(i).compareTo(heap.get(left))<0 || heap.get(i).compareTo(heap.get(right))<0)
+				return false;
+		}*/
+		//Check if left index is valid
+		if (left<getSize()){
+			//Check if cur node is greater or equal to the left child. If not, return false.
+			if (heap.get(i).compareTo(heap.get(left))<0)
+				return false;
+		}
+		//Check if right index is valid
+		if (right<getSize()){
+			//Check if cur node is greater or equal to the right child. If not, return false.
+			if (heap.get(i).compareTo(heap.get(right))<0)
+				return false;
+		}
+
+		//recurse over entire heap
+		return isMaxHeap(left)&&isMaxHeap(right);
+
+	}
 
 	@Override public java.util.Iterator<T> iterator(){
 		return new java.util.Iterator<T> (){
