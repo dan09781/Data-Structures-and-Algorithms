@@ -67,7 +67,9 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 		int right=2*i+2;
 
 		//Check first if the node at index i violates the heap invariant w.r.t its parent
-		//Check first for the parent index and if it is valid
+		//Check first the parent index and see if it is valid
+		//If it is valid, check for violation of heap invariant
+		//If there is a violation we need to bubble up
 		if (parent<heap.size() && heap.get(i).compareTo(heap.get(parent))<0){
 			bubbleUp(i);
 		}
@@ -75,6 +77,7 @@ public class PriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 		//is satisfied, check both left and right
 		//If either of left or right children is valid, then we have to check whether the current node
 		//is greater than either the left child or the right child
+		//If there is a violation between current node or any of the children, we need to bubble down
 		else if (left<heap.size() && heap.get(left).compareTo(heap.get(i))<0){
 			bubbleDown(i);
 		} 
