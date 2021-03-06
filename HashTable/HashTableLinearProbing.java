@@ -1,4 +1,4 @@
-
+//Hash table linear probing implementation. Inherits hash table open addressing base class
 
 public class HashTableLinearProbing<T,V> extends HashTableOpenAddressing<T,V>{
 

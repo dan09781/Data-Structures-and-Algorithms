@@ -55,7 +55,7 @@ public abstract class HashTableOpenAddressing<T,V>{
 
 	HashTableOpenAddressing(int capacity, double loadFactor){
 		//Capacity has to be greater or equal to 0 and load factor should be in the range (0,1]
-		if (capacity<0 || (loadFactor<=0 || loadFactor>1))
+		if (capacity<=0 || (loadFactor<=0 || loadFactor>1))
 			throw new IllegalArgumentException();
 		maxLoadFactor = loadFactor;
 		this.capacity = capacity;
