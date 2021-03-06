@@ -70,6 +70,11 @@ public abstract class HashTableOpenAddressing<T,V>{
 		clear(table,capacity);
 	}
 
+	//Some protected abstract methods to support quadratic and linear probing
+	protected abstract int probingFunction(int x);
+
+	protected abstract void adjustCapacity();
+
 
 	public int size(){
 		return size;
@@ -113,16 +118,11 @@ public abstract class HashTableOpenAddressing<T,V>{
 		table.set(j,temp);
 	}
 
-	//Some protected abstract methods to support quadratic and linear probing
-	protected abstract int probingFunction(int x);
-
-	protected abstract void adjustCapacity();
-
 	public void put(T key, V val){
 		insert(table, key, val);
 	}
 
-	public void insert(List<Entry<T,V>> table, T key, V val){
+	private void insert(List<Entry<T,V>> table, T key, V val){
 		if (key==null)
 			throw new IllegalArgumentException("Key cannot be null");
 
