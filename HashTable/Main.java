@@ -4,7 +4,7 @@ import java.util.*;
 //Driver Method!!!
 public class Main{
 	public static void main(String[] args){
-		HashTable<Integer,String> ht = new HashTable<>(10,0.8);
+		HashTableOpenAddressing<Integer,String> ht = new HashTableLinearProbing<>(10,0.8);
 		ht.put(1,"hi");
 		ht.put(2,"hello");
 		ht.put(3,"sup");
@@ -12,7 +12,10 @@ public class Main{
 		ht.put(5,"annyung");
 		ht.put(5,"annyunghasaeyo");
 
-		ht.remove(4);
+		ht.remove(2);
+
+		ht.put(2,"here again");
+
 
 		System.out.println(ht);
 

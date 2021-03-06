@@ -3,7 +3,7 @@
 
 import java.util.*;
 
-public class HashTableOpenAddressing<T,V>{
+public abstract class HashTableOpenAddressing<T,V>{
 
 	//First declare the entry class
 	private class Entry<T,V>{
@@ -31,7 +31,7 @@ public class HashTableOpenAddressing<T,V>{
 	private static final int defaultCapacity=5;
 	private static final double defaultLoadFactor=0.75;
 	private double maxLoadFactor;
-	private int capacity;
+	protected int capacity;
 	//Threshold is to prevent table from getting too full, which may result
 	//in slots not being used, b.c of too many collisions, hence linked lists being too long
 	//thershold = defaultLoadFactor*capacity
@@ -43,8 +43,7 @@ public class HashTableOpenAddressing<T,V>{
 	//Whereas size represents the number of non-null elements in the array list
 	private int size=0;
 	private List<Entry<T,V>> table;
-	private final Entry<T,V> TOMBSTONE = (Entry<T,V>)(new Object());
-	private static final int LINEAR_CONSTANT = 1;
+	private final Entry<T,V> TOMBSTONE = new Entry<T,V>();
 
 	HashTableOpenAddressing(){
 		this(defaultCapacity, defaultLoadFactor);
@@ -61,10 +60,14 @@ public class HashTableOpenAddressing<T,V>{
 		maxLoadFactor = loadFactor;
 		this.capacity = capacity;
 		threshold = (int)(maxLoadFactor*capacity);
+
+		//Adjust the capacity, incase the capacity user gives does not yield a full cycle modulo w.r.t 
+		//the probing function being used
+		adjustCapacity();
 		//List instead of LinkedList because we are not creating linked lists yet
 		table = new ArrayList<Entry<T,V>>(capacity);
 		//Fill the table with nulls to avoid index out of bound error
-		clear();
+		clear(table,capacity);
 	}
 
 
@@ -83,11 +86,17 @@ public class HashTableOpenAddressing<T,V>{
 	}
 
 	//Clear hash table; set everything to null and reset size to 0
-	public void clear(){
-		for (int i=0;i<capacity;i++){
+	private void clear(List<Entry<T,V>> table, int tableCapacity){
+		for (int i=0;i<tableCapacity;i++){
 			table.add(null);
 		}
-		size = 0;
+		size=0;
+	}
+
+	private void clearUnused(List<Entry<T,V>> table, int tableCapacity){
+		for (int i=0;i<tableCapacity;i++){
+			table.add(null);
+		}
 	}
 
 	//Function to find greatest common denomenator of two integers
@@ -109,7 +118,11 @@ public class HashTableOpenAddressing<T,V>{
 
 	protected abstract void adjustCapacity();
 
-	public void insert(T key, V val){
+	public void put(T key, V val){
+		insert(table, key, val);
+	}
+
+	public void insert(List<Entry<T,V>> table, T key, V val){
 		if (key==null)
 			throw new IllegalArgumentException("Key cannot be null");
 
@@ -125,7 +138,7 @@ public class HashTableOpenAddressing<T,V>{
 		int tombstoneExists = -1; 
 
 		//Initialize x to be 0. Will be used for probing function
-		int x = 0;
+		int x = 1;
 
 
 		//loop until no collision is detected or a tombstone is found
@@ -160,10 +173,106 @@ public class HashTableOpenAddressing<T,V>{
 		}
 
 		//If we get to here, it means that an empty slot was found.
+		//If a tombstone had been found, replace the new pair with the tombstone
+		if (tombstoneExists!=-1){
+			Entry<T,V> newEntry = new Entry<>(key, val);
+			table.set(tombstoneExists, newEntry);
+			return;
+		}
 		//We can just insert the key,val pair to this slot and increment the size
 		Entry<T,V> newEntry = new Entry<>(key, val);
 		table.set(tableIndex, newEntry);
 		size++;
 		return;
+	}
+
+	public boolean containsKey(T key){
+		if (isEmpty())
+			return false;
+		if (key==null)
+			throw new IllegalArgumentException("null key not accepted!");
+		int tableIndex = getIndexFromHashCode(key.hashCode());
+		//iterate through all the entries and check if key equals for real
+		//entries (not tombstone)
+		while (table.get(tableIndex)!=null && table.get(tableIndex)!=TOMBSTONE){
+			if (table.get(tableIndex).key.equals(key))
+				return true;
+		}
+
+		//This means an empty slot was found which means the key does not exist
+		return false;
+	}
+
+	public Entry<T,V> remove(T key){
+		//Key does not exist in table. Return null indicating that nothing was removed
+		if (!containsKey(key))
+			return null;
+
+		//Continue if key exists
+		//Variable to store location of the first occurence of tombstone
+		int tombstoneExists = -1;
+
+		int x = 1;
+
+		int tableIndex = getIndexFromHashCode(key.hashCode());
+
+		//loop until no collision is detected or a tombstone is found
+		while (!table.get(tableIndex).key.equals(key)){
+			//If the first tombstone is found, save the index of the tombstone
+			//We are only interested in the first tombstone because that is 
+			//where we want to locate an entry
+			if (table.get(tableIndex)==TOMBSTONE && tombstoneExists==-1)
+				tombstoneExists=tableIndex;
+			//Update table index to keep probing
+			tableIndex+=probingFunction(x++);
+			tableIndex%=capacity;
+		}
+
+		//We have found the entry matching the key
+		Entry<T,V> res = table.get(tableIndex);
+		table.set(tableIndex, TOMBSTONE);
+		return res;
+
+	}
+
+	//Function to resize table when size exceeds threshold
+	private void resizeTable(){
+		//double the capacity and adjust the capacity to a value that yields full cycle modulo
+
+		//old capacity used to clear the old table at the end of the function
+		int oldCapacity = capacity;
+		capacity*=2;
+		adjustCapacity();
+		List<Entry<T,V>> newTable = new ArrayList<>();
+		clear(newTable,capacity);
+
+		//Iterate through the old table and insert every entry onto the new table
+		for (int i=0;i<oldCapacity;i++){
+			//Found an entry
+			if (table.get(i)!=null && table.get(i)!=TOMBSTONE){
+				//get new table index with new capacity
+				T key = table.get(i).key;
+				V val = table.get(i).val;
+				insert(newTable, key, val);
+			}
+		}
+		clearUnused(table,oldCapacity);
+		table=newTable;
+	}
+
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		for (int i=0;i<capacity;i++){
+			if (table.get(i)==null)
+				continue;
+			else if (table.get(i)==TOMBSTONE)
+				sb.append("Tombstone at " + i + ", ");
+			else
+				sb.append(i + ":" + table.get(i) + ", ");
+		}
+		sb.append("}");
+		return sb.toString();
 	}
 }
