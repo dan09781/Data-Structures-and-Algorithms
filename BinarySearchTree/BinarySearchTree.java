@@ -1,66 +1,110 @@
 public class BinarySearchTree<T extends Comparable<T>>{
-	private class Node<T>{
+	private int size=0;
+	Node bstRoot=null;
+
+	private class Node{
 
 		//If we call compareTo on T, we're using built in compareTo function of T
 		//Or manually implemented compareTo if T is a custom class we wrote
 		T data;
-		Node<T> left;
-		Node<T> right;
+		Node left;
+		Node right;
 
 		Node(){
-
+			//Set root node
 		}
 
 		Node(T data){
 			this.data=data;
 		}
 
-		Node(T data, Node<T> left, Node<T> right){
+		Node(T data, Node left, Node right){
 			this.data=data;
 			this.left=left;
 			this.right=right;
 		}
 
-		/*@Override
-		public int compareTo(Node<T> elem){
-			if (this.data < elem.data)
-				return 1;
-			else if (this.data > elem.data)
-				return -1;
-			else 
-				return 0;
-		}*/
-
 		@Override 
 		public String toString(){
 			StringBuilder sb = new StringBuilder();
-			sb.append(this.data);
+			sb.append(this.data + ", ");
 			return sb.toString();
 		}
 	}
 
-	//Insert an element into the bst
-	public void insert(Node<T> elem){
-		if (elem==null) 
-			return;
-
+	BinarySearchTree(T data, Node left, Node right){
+		bstRoot = new Node(data, left, right);
+		size=1;
 	}
 
-	private void insertHelper(Node<T> elem, Node<T> root){
+	public int getSize(){
+		return size;
+	}
+
+	public boolean isEmpty(){
+		return getSize()==0;
+	}
+
+	//Insert an element into the bst
+	public boolean insert(T data){
+		//If data is null or the data already exists in the bst
+		//We do nothing
+		if (data==null || contains(data, bstRoot)) 
+			return false;
+		insertHelper(data, bstRoot);
+		size++;
+		return true;
+	}
+
+	private void insertHelper(T elem, Node root){
+		//We have found the null leaf position we want to insert the node into
 		if (root==null){
+			root=new Node(elem, null, null);
 			return;
 		}
+		else{
+			//If element to be inserted is smaller than the current node
+			if (elem.compareTo(root.data)<0){
+				insertHelper(elem, root.left);
+			}
+			else
+			//The only other possible option is if the element is larger than the current node
+			//We have already taken care of the case in which they are equal in the main insert method
+			//by first checking if the element already exists in the bst
+				insertHelper(elem, root.right);
+		}
+		return;
 	}
 
-	private Node<T> find(Node<T> elem, Node<T> root){
+	public boolean containsElem(T data){
+		return contains(data, bstRoot);
+	}
+
+	//Private method to find out if a given element exists in the bst
+	private boolean contains(T data, Node root){
+		//If root is null, it either means that the tree does not exist or the element could not be found.
+		//Since we don't allow null elements, we return false
+		if (root==null || data==null)
+			return false;
+		//If the element we are looking for is smaller than the current node, traverse the left subtree
+		if (data.compareTo(root.data)<0)
+			return contains(data, root.left);
+		//If the element we are looking for is greater than the current node, traverse the right subtree
+		if (data.compareTo(root.data)>0)
+			return contains(data, root.right);
+		//Else, the element we are looking for matches the current node.
+		return true;
+	}
+
+	private Node find(T elem, Node root){
 		//if we hit null, means we could not find the node. return null
 		if (elem==null || root==null)
 			return null;
 		//If we found the node, return it
-		if (elem.data.compareTo(root.data)==0)
+		if (elem.compareTo(root.data)==0)
 			return root;
 		//if the node we are finding is smaller than the root node
-		else if (elem.data.compareTo(root.data) < 0)
+		else if (elem.compareTo(root.data) < 0)
 			return find(elem, root.left);
 		else 
 			return find(elem, root.right);
@@ -68,13 +112,29 @@ public class BinarySearchTree<T extends Comparable<T>>{
 
 	//Function to find out if a tree satisfies bst invariant
 	//For testing purposes
-	public boolean isBST(Node<T> root){
+	public boolean isBST(Node root){
 		if (root==null)
 			return true;
-		if (root.data.compareTo(left)<0)
+		if (root.data.compareTo(root.left.data)<0)
 			return false;
-		if (root.data.compareTo(right)>0)
+		if (root.data.compareTo(root.right.data)>0)
 			return false;
 		return isBST(root.left) && isBST(root.right);
+	}
+
+	private void inOrder(StringBuilder sb, Node root){
+		if (root==null)
+			return;
+		inOrder(sb, root.left);
+		sb.append(root);
+		inOrder(sb, root.right);
+	}
+
+	//List the bst with in-order traversal
+	@Override 
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		inOrder(sb, bstRoot);
+		return sb.toString();
 	}
 } 
