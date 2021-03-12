@@ -100,6 +100,21 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		return true;
 	}
 
+	//Clears the tree
+	public void clear(){
+		bstRoot=clear(bstRoot);
+		size=0;
+		return;
+	}
+
+	private Node clear(Node root){
+		if (root==null)
+			return root;
+		root.left=clear(root.left);
+		root.right=clear(root.right);
+		return null;
+	}
+
 	private Node find(T elem, Node root){
 		//if we hit null, means we could not find the node. return null
 		if (elem==null || root==null)

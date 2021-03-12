@@ -14,7 +14,11 @@ public class Main{
 		System.out.println(bst.containsElem(6));
 		System.out.println(bst);
 
-		System.out.println(bst.getMax());
+		System.out.println(bst.getMin());
+		bst.clear();
+		System.out.println(bst);
+		System.out.println(bst.isEmpty());
+		System.out.println(bst.getSize());
 
 	}
 }
