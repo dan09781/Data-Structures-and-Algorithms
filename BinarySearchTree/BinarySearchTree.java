@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class BinarySearchTree<T extends Comparable<T>>{
 	private int size=0;
 	Node bstRoot=null;
@@ -57,14 +59,12 @@ public class BinarySearchTree<T extends Comparable<T>>{
 	private Node insertHelper(T elem, Node root){
 		//We have found the null leaf position we want to insert the node into
 		if (root==null){
-			System.out.println("Insertion: found null leaf noce " + elem);
 			root=new Node(elem, null, null);
 			return root;
 		}
 		else{
 			//If element to be inserted is smaller than the current node
 			if (elem.compareTo(root.data)<0){
-				System.out.println("Insertion: smaller" + elem);
 				root.left=insertHelper(elem, root.left);
 			}
 			else
@@ -182,6 +182,22 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		sb.append(root.data + ", ");
 		preOrder(sb, root.left);
 		preOrder(sb, root.right);
+	}
+
+
+	//Iterators for different types of traversals
+	//We have to do this iteratively
+	Iterator<T> inOrderTraversal(){
+		return new Iterator<T>(){
+			@Override 
+			public boolean hasNext(){
+
+			}
+			@Override 
+			public T next(){
+
+			}
+		};
 	}
 
 	//List the bst with in-order traversal
