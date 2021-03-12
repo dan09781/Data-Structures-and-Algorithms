@@ -14,5 +14,7 @@ public class Main{
 		System.out.println(bst.containsElem(6));
 		System.out.println(bst);
 
+		System.out.println(bst.getMax());
+
 	}
 }

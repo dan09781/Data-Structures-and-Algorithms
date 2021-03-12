@@ -114,6 +114,31 @@ public class BinarySearchTree<T extends Comparable<T>>{
 			return find(elem, root.right);
 	}
 
+	//Get max and min functions
+	public T getMax(){
+		return getMax(bstRoot);
+	}
+
+	private T getMax(Node root){
+		if (root.right==null)
+			return root.data;
+		//Go farthest to the right to get max
+		T res=getMax(root.right);
+		//this is when we are at the max node
+		return res;
+	}
+
+	public T getMin(){
+		return getMin(bstRoot);
+	}
+
+	private T getMin(Node root){
+		if (root.left==null)
+			return root.data;
+		T res=getMin(root.left);
+		return res;
+	}
+
 	//Function to find out if a tree satisfies bst invariant
 	//For testing purposes
 	public boolean isBST(Node root){
