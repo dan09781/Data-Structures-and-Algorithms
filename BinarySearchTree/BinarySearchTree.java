@@ -24,12 +24,6 @@ public class BinarySearchTree<T extends Comparable<T>>{
 			this.right=right;
 		}
 
-		@Override 
-		public String toString(){
-			StringBuilder sb = new StringBuilder();
-			sb.append(this.data + ", ");
-			return sb.toString();
-		}
 	}
 
 	BinarySearchTree(T data, Node left, Node right){
@@ -51,29 +45,35 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		//We do nothing
 		if (data==null || contains(data, bstRoot)) 
 			return false;
-		insertHelper(data, bstRoot);
+		//return the root with the new element inserted into bst
+		//We must return the root because otherwise, inserted node will be lost
+		//when the recursive call that creates the new node returns
+		bstRoot=insertHelper(data, bstRoot);
 		size++;
 		return true;
 	}
 
-	private void insertHelper(T elem, Node root){
+	//Inserts the node and returns the node that has been inserted
+	private Node insertHelper(T elem, Node root){
 		//We have found the null leaf position we want to insert the node into
 		if (root==null){
+			System.out.println("Insertion: found null leaf noce " + elem);
 			root=new Node(elem, null, null);
-			return;
+			return root;
 		}
 		else{
 			//If element to be inserted is smaller than the current node
 			if (elem.compareTo(root.data)<0){
-				insertHelper(elem, root.left);
+				System.out.println("Insertion: smaller" + elem);
+				root.left=insertHelper(elem, root.left);
 			}
 			else
 			//The only other possible option is if the element is larger than the current node
 			//We have already taken care of the case in which they are equal in the main insert method
 			//by first checking if the element already exists in the bst
-				insertHelper(elem, root.right);
+				root.right=insertHelper(elem, root.right);
 		}
-		return;
+		return root;
 	}
 
 	public boolean containsElem(T data){
@@ -84,14 +84,18 @@ public class BinarySearchTree<T extends Comparable<T>>{
 	private boolean contains(T data, Node root){
 		//If root is null, it either means that the tree does not exist or the element could not be found.
 		//Since we don't allow null elements, we return false
-		if (root==null || data==null)
+		if (root==null || data==null){
 			return false;
+		}
+
 		//If the element we are looking for is smaller than the current node, traverse the left subtree
-		if (data.compareTo(root.data)<0)
+		if (data.compareTo(root.data)<0){
 			return contains(data, root.left);
+		}
 		//If the element we are looking for is greater than the current node, traverse the right subtree
-		if (data.compareTo(root.data)>0)
+		if (data.compareTo(root.data)>0){
 			return contains(data, root.right);
+		}
 		//Else, the element we are looking for matches the current node.
 		return true;
 	}
@@ -122,19 +126,29 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		return isBST(root.left) && isBST(root.right);
 	}
 
+	//Inorder traversal function
 	private void inOrder(StringBuilder sb, Node root){
 		if (root==null)
 			return;
 		inOrder(sb, root.left);
-		sb.append(root);
+		sb.append(root.data + ", ");
 		inOrder(sb, root.right);
+	}
+
+	//Preorder traversal function
+	private void preOrder(StringBuilder sb, Node root){
+		if (root==null)
+			return;
+		sb.append(root.data + ", ");
+		preOrder(sb, root.left);
+		preOrder(sb, root.right);
 	}
 
 	//List the bst with in-order traversal
 	@Override 
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		inOrder(sb, bstRoot);
+		preOrder(sb, bstRoot);
 		return sb.toString();
 	}
 } 
