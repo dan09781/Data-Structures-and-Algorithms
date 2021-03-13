@@ -103,6 +103,22 @@ class BinarySearchTreeTest {
 
     @Test
     void testRemove(){
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.insert(1);
+        assertEquals(false, bst.remove(2));
+
+        bst.insert(2);
+        assertEquals(true, bst.remove(2));
+
+        bst.insert(3);
+        bst.insert(5);
+        bst.insert(-12);
+        bst.insert(-1);
+        bst.insert(23);
+        bst.insert(30);
+        bst.insert(4);
+        bst.insert(8);
+        assertEquals(true, bst.remove(3));
 
 
     }

@@ -122,13 +122,11 @@ public class BinarySearchTree<T extends Comparable<T>>{
 			//Second case
 			else if (root.right==null){
 				root.data=null;
-				root=null;
 				return root.left;
 			}
 			//Third case
 			else if (root.left==null){
 				root.data=null;
-				root=null;
 				return root.right;
 			}
 			//Fourth case
@@ -142,7 +140,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
 				return removeHelper(successor, root.left);
 			}
 		}
-		return null;
+		return root;
 
 	}
 
