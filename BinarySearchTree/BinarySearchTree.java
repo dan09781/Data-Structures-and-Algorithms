@@ -88,6 +88,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		if (elem==null || !containsElem(elem))
 			return false;
 		bstRoot = removeHelper(elem, bstRoot);
+		size--;
 		return true;
 	}
 
