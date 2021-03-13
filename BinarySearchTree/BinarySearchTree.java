@@ -109,13 +109,14 @@ public class BinarySearchTree<T extends Comparable<T>>{
 	//Clears the tree
 	public void clear(){
 		bstRoot=clear(bstRoot);
+		bstRoot=null;
 		size=0;
 		return;
 	}
 
 	private Node clear(Node root){
 		if (root==null)
-			return root;
+			return null;
 		root.left=clear(root.left);
 		root.right=clear(root.right);
 		return null;
@@ -160,14 +161,18 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		return res;
 	}
 
+
+	public boolean isBST(){
+		return isBST(bstRoot);
+	}
 	//Function to find out if a tree satisfies bst invariant
 	//For testing purposes
-	public boolean isBST(Node root){
+	private boolean isBST(Node root){
 		if (root==null)
 			return true;
-		if (root.data.compareTo(root.left.data)<0)
+		if (root.left!=null && root.data.compareTo(root.left.data)<0)
 			return false;
-		if (root.data.compareTo(root.right.data)>0)
+		if (root.right!=null && root.data.compareTo(root.right.data)>0)
 			return false;
 		return isBST(root.left) && isBST(root.right);
 	}
