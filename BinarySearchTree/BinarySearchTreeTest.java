@@ -7,6 +7,20 @@ class BinarySearchTreeTest {
 
     @Test
     void getSize() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        assertEquals(true, bst.isEmpty());
+        bst.insert(1);
+        assertEquals(1, bst.getSize());
+        bst.insert(2);
+        assertEquals(2, bst.getSize());
+        bst.remove(3);
+        assertEquals(2, bst.getSize());
+        bst.remove(2);
+        assertEquals(1, bst.getSize());
+        bst.remove(1);
+        assertEquals(0, bst.getSize());
+        bst.remove(1);
+        assertEquals(0, bst.getSize());
     }
 
     @Test
@@ -123,6 +137,7 @@ class BinarySearchTreeTest {
         bst.insert(0);
         bst.insert(-9);
         bst.insert(-7);
+
         assertEquals(true, bst.remove(-8));
         assertEquals(13, bst.getSize());
         assertEquals(true, bst.remove(-9));
@@ -133,7 +148,28 @@ class BinarySearchTreeTest {
     }
 
     @Test
+    void testHeight(){
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.insert(1);
+        bst.insert(3);
+        bst.insert(5);
+        bst.insert(-12);
+        bst.insert(-1);
+        bst.insert(23);
+        bst.insert(30);
+        bst.insert(4);
+        bst.insert(8);
+        bst.insert(-20);
+        bst.insert(-8);
+        bst.insert(0);
+        bst.insert(-9);
+        bst.insert(-7);
+        assertEquals(5, bst.getHeight());
+    }
+
+    @Test
     void inOrderTraversal() {
+
     }
 
     @Test

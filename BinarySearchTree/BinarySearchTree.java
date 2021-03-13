@@ -1,3 +1,10 @@
+/* Implementation of a Binary Search Tree (BST). Using generics that extends the comparable
+ * class so any comparable data type can be used. Supports functions such as insertion, deletion, clear,
+ * bst check, get min and max, contains check, get height, as well as all traversals.
+ *
+ * @author Daniel Min, daniel.min9609@gmail.com
+ */
+
 package DataStructureImplementation.BinarySearchTree;
 
 import java.util.*;
@@ -228,6 +235,21 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		if (root.right!=null && root.data.compareTo(root.right.data)>0)
 			return false;
 		return isBST(root.left) && isBST(root.right);
+	}
+
+	public int getHeight(){
+		if (bstRoot==null)
+			return 0;
+		int height=0;
+		return getHeight(bstRoot, height);
+	}
+
+	private int getHeight(Node root, int height){
+		if (root==null)
+			return height;
+		int height1=getHeight(root.left, height+1);
+		int height2=getHeight(root.right, height+1);
+		return Math.max(height1, height2);
 	}
 
 	//Inorder traversal function
