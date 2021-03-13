@@ -139,9 +139,3 @@ public class DynamicArray <T> {
 }
 
 
-//Driver Method!!!
-public class Main{
-	public static void main(String[] args){
-
-	}
-}

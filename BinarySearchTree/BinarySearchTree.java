@@ -1,3 +1,5 @@
+package DataStructureImplementation.BinarySearchTree;
+
 import java.util.*;
 
 public class BinarySearchTree<T extends Comparable<T>>{
@@ -25,6 +27,10 @@ public class BinarySearchTree<T extends Comparable<T>>{
 			this.left=left;
 			this.right=right;
 		}
+
+	}
+
+	BinarySearchTree(){
 
 	}
 
@@ -187,7 +193,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
 
 	//Iterators for different types of traversals
 	//We have to do this iteratively
-	Iterator<T> inOrderTraversal(){
+	/*Iterator<T> inOrderTraversal(){
 		return new Iterator<T>(){
 			@Override 
 			public boolean hasNext(){
@@ -198,7 +204,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
 
 			}
 		};
-	}
+	}*/
 
 	//List the bst with in-order traversal
 	@Override 
