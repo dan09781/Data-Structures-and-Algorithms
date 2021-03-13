@@ -137,7 +137,8 @@ public class BinarySearchTree<T extends Comparable<T>>{
 				root.data=successor;
 				//remove the successor node in its original position
 				//by calling the remove function on the left subtree
-				return removeHelper(successor, root.left);
+				root.left = removeHelper(successor, root.left);
+				return root;
 			}
 		}
 		return root;

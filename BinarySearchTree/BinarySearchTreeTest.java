@@ -118,7 +118,12 @@ class BinarySearchTreeTest {
         bst.insert(30);
         bst.insert(4);
         bst.insert(8);
-        assertEquals(true, bst.remove(3));
+        bst.insert(-20);
+        bst.insert(-8);
+        bst.insert(0);
+        bst.insert(-9);
+        bst.insert(-7);
+        assertEquals(true, bst.remove(-8));
 
 
     }
