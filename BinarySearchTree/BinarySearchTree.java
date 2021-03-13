@@ -82,6 +82,70 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		return root;
 	}
 
+	public boolean remove(T elem){
+		//null element not accepted. return false to indicate nothing has been removed
+		//Same with when elem cannot be found in the bst
+		if (elem==null || !containsElem(elem))
+			return false;
+		bstRoot = removeHelper(elem, bstRoot);
+		return true;
+	}
+
+	private Node removeHelper(T elem, Node root){
+		//We already know that the node we wish to remove exists in the bst at this point.
+		//Find it.
+		if (root==null)
+			return null;
+		//elem is smaller than cur node
+		if (elem.compareTo(root.data)<0)
+			root.left = removeHelper(elem, root.left);
+		//elem is larger than cur node
+		else if (elem.compareTo(root.data)>0)
+			root.right = removeHelper(elem, root.right);
+		//Here, we have found the node we want to remove
+		// 4 cases that can happen in a removal:
+		//        - 1. Node to be removed is a leaf node: No need to find a successor. Just remove it.
+		//        - 2. Left subtree exists: Choose the root of the left subtree to be the successor
+		//        - 3. Right subtree exists: Choose the root of the right subtree to be the successor
+		//        - 4. Both subtrees exist: Choose either the largest value in the left subtree or the
+		//        smallest value in the right subtree to be the successor.
+		//        After replacing it, remove the successor node in its original position.
+		//        Removing the successor in its original position should always yield one of cases 1, 2, or 3.
+		else {
+			//First case
+			if (root.left == null && root.right == null) {
+				//clear memory
+				root.data = null;
+				root = null;
+				return null;
+			}
+			//Second case
+			else if (root.right==null){
+				root.data=null;
+				root=null;
+				return root.left;
+			}
+			//Third case
+			else if (root.left==null){
+				root.data=null;
+				root=null;
+				return root.right;
+			}
+			//Fourth case
+			//Choose largest of the left subtree as successor
+			else{
+				//Find successor and replace the value with current node
+				T successor = getMax(root.left);
+				root.data=successor;
+				//remove the successor node in its original position
+				//by calling the remove function on the left subtree
+				return removeHelper(successor, root.left);
+			}
+		}
+		return null;
+
+	}
+
 	public boolean containsElem(T data){
 		return contains(data, bstRoot);
 	}
@@ -122,25 +186,14 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		return null;
 	}
 
-	private Node find(T elem, Node root){
-		//if we hit null, means we could not find the node. return null
-		if (elem==null || root==null)
-			return null;
-		//If we found the node, return it
-		if (elem.compareTo(root.data)==0)
-			return root;
-		//if the node we are finding is smaller than the root node
-		else if (elem.compareTo(root.data) < 0)
-			return find(elem, root.left);
-		else 
-			return find(elem, root.right);
-	}
-
 	//Get max and min functions
+
+	//public function for user
 	public T getMax(){
 		return getMax(bstRoot);
 	}
 
+	//private function for uses within the class
 	private T getMax(Node root){
 		if (root.right==null)
 			return root.data;

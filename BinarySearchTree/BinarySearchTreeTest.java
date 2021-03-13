@@ -102,6 +102,12 @@ class BinarySearchTreeTest {
     }
 
     @Test
+    void testRemove(){
+        
+
+    }
+
+    @Test
     void inOrderTraversal() {
     }
 
