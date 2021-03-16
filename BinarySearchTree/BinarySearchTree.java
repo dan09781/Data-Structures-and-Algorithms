@@ -270,10 +270,22 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		preOrder(sb, root.right);
 	}
 
+	Iterator<T> traversals(){
+		switch(traversalType){
+			case INORDER:
+				return inOrderTraversal();
+			case PREORDER:
+				return preOrderTraversal();
+			case POSTORDER:
+				return postOrderTraversal();
+
+		}
+	}
+
 
 	//Iterators for different types of traversals
 	//We have to do this iteratively
-	/*Iterator<T> inOrderTraversal(){
+	Iterator<T> inOrderTraversal(){
 		return new Iterator<T>(){
 			@Override 
 			public boolean hasNext(){
@@ -284,7 +296,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
 
 			}
 		};
-	}*/
+	}
 
 	//List the bst with in-order traversal
 	@Override 
