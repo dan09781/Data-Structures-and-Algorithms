@@ -283,17 +283,42 @@ public class BinarySearchTree<T extends Comparable<T>>{
 	}
 
 
-	//Iterators for different types of traversals
-	//We have to do this iteratively
+
+
+	//Iterative solution for inorder traversal using stack
 	Iterator<T> inOrderTraversal(){
-		return new Iterator<T>(){
-			@Override 
-			public boolean hasNext(){
+		final java.util.Stack<Node> stack = new java.util.Stack<>();
+		stack.push(bstRoot);
 
+		return new java.util.Iterator<T>() {
+			Node cur = bstRoot;
+
+			@Override
+			public boolean hasNext() {
+				return bstRoot != null && !stack.isEmpty();
 			}
-			@Override 
-			public T next(){
 
+			@Override
+			public T next() {
+				while (cur != null && cur.left != null) {
+					stack.push(cur.left);
+					cur = cur.left;
+				}
+
+				Node node = stack.pop();
+
+				// Try moving down right once
+				if (node.right != null) {
+					stack.push(node.right);
+					cur = node.right;
+				}
+
+				return node.data;
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
 			}
 		};
 	}
