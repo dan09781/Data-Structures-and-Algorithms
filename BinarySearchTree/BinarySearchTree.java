@@ -323,6 +323,10 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		};
 	}
 
+	Iterator<T> preOrderTraversal(){
+		
+	}
+
 	//List the bst with in-order traversal
 	@Override 
 	public String toString(){
