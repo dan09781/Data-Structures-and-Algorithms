@@ -22,3 +22,15 @@ Data structures implementations in Java
     * Supports linear and quadratic probing
 * Binary Search Tree
 
+# Running test cases on data structures
+Compile JUnit test cases:
+```
+javac -d /absolute/path/for/compiled/classes -cp /absolute/path/to/junit-4.12.jar /absolute/path/to/TestClassName.java
+```
+Run the test cases:
+```
+java -cp /absolute/path/for/compiled/classes:/absolute/path/to/junit-4.12.jar:/absolute/path/to/hamcrest-core-1.3.jar org.junit.runner.JUnitCore DataStructureImplementation.BinarySearchTree.DataStructureClassName
+```
+
+
+
