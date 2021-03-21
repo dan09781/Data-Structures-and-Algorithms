@@ -285,7 +285,8 @@ public class BinarySearchTree<T extends Comparable<T>>{
 
 
 
-	//Iterative solution for inorder traversal using stack
+	//Fancy iterative solution for inorder traversal using stack
+	//very complex to write this iterator function recursively...
 	Iterator<T> inOrderTraversal(){
 		final java.util.Stack<Node> stack = new java.util.Stack<>();
 		stack.push(bstRoot);
