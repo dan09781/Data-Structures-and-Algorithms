@@ -307,17 +307,18 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		preOrder(sb, root.right);
 	}
 
-	/*Iterator<T> traversals(){
-		switch(traversalType){
+	public Iterator<T> traversals(TraversalType type){
+		switch(type){
 			case INORDER:
 				return inOrderTraversal();
-			case PREORDER:
+			/*case PREORDER:
 				return preOrderTraversal();
 			case POSTORDER:
-				return postOrderTraversal();
-
+				return postOrderTraversal();*/
+			default:
+				return null;
 		}
-	}*/
+	}
 
 
 
@@ -333,6 +334,8 @@ public class BinarySearchTree<T extends Comparable<T>>{
 
 			@Override
 			public boolean hasNext() {
+				//Termination condition
+				//if root is null and stack is empty, it means all nodes in the bst have been visited
 				return bstRoot != null && !stack.isEmpty();
 			}
 

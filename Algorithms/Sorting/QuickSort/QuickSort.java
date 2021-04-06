@@ -22,6 +22,8 @@ public class QuickSort {
     private int partition(int[] arr, int left, int right){
         int j=left;
         int i=j-1;
+
+        //Choose pivot to be the last element of the partition
         int pivot = arr[right];
         for (;j<right;j++){
             //element is smaller than pivot
