@@ -5,7 +5,7 @@
  * @author Daniel Min, daniel.min9609@gmail.com
  */
 
-package DataStructureImplementation.BinarySearchTree;
+package DataStructureImplementation.DataStructures.BinarySearchTree;
 
 import java.util.*;
 
@@ -252,6 +252,43 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		return Math.max(height1, height2);
 	}
 
+	/*public Node inorderSuccessor(Node root){
+		if (root==null)
+			return null;
+		if (root.right!=null)
+			return getMinNode(root.right);
+
+		//here input node has no right subtree
+		//find if it is a left child or a right child
+		//if it is a left child: return the parent
+		//if it is a right child: go up til you find a node
+		//who is a left child of its parent
+
+		//means the root is the root of bst and has no right subtree
+		//return null
+		if (root.parent!=null)
+			return null;
+
+		//if it is a left child
+		if (root.parent.key>root.key)
+			return parent;
+
+		//if it is a right child
+		if (root.parent.key < root.key){
+			while (root.parent.key < root.key)
+				root=root.parent;
+			return root.parent;
+		}
+
+	}
+
+	private Node getMinNode(Node root){
+		while (root.left!=null)
+			root=root.left;
+		return root;
+	}*/
+
+
 	//Inorder traversal function
 	private void inOrder(StringBuilder sb, Node root){
 		if (root==null)
@@ -270,7 +307,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		preOrder(sb, root.right);
 	}
 
-	Iterator<T> traversals(){
+	/*Iterator<T> traversals(){
 		switch(traversalType){
 			case INORDER:
 				return inOrderTraversal();
@@ -280,7 +317,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
 				return postOrderTraversal();
 
 		}
-	}
+	}*/
 
 
 
@@ -324,9 +361,9 @@ public class BinarySearchTree<T extends Comparable<T>>{
 		};
 	}
 
-	Iterator<T> preOrderTraversal(){
+	/*Iterator<T> preOrderTraversal(){
 
-	}
+	}*/
 
 	//List the bst with in-order traversal
 	@Override 

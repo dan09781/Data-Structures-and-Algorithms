@@ -1,3 +1,4 @@
+package DataStructureImplementation.DataStructures.PriorityQueue;
 //Min Priority Queue implementation with a binary min heap
 
 import java.util.*;

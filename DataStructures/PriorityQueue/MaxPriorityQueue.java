@@ -1,9 +1,10 @@
+package DataStructureImplementation.DataStructures.PriorityQueue;
 //Max Priority Queue implementation with a binary max heap
 
 import java.util.*;
 
 
-//T is the class or object that needs to be comparable. Thats why T extends comparable 
+//T is the class or object that needs to be comparable. That's why T extends comparable
 public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 	private List<T> heap;
 
@@ -22,7 +23,7 @@ public class MaxPriorityQueue<T extends Comparable<T>> implements Iterable<T>{
 		}*/
 
 		//Build heap in O(n) time. This function builds max heap in worst cast O(n) time from going bottom-up.
-		//Considering all leaf nodes satisfy heap invariant, we can ignore them altogether as they won't be bubbling
+		//Considering all leaf nodes already satisfy heap invariant, we can ignore them altogether as they won't be bubbling
 		//down at all. Since leaf nodes take up ~n/2 nodes, we can conclude that those ~n/2 nodes require 0 work. 
 		//Using this pattern, we see that there are ~n/(2^(j+1)) nodes where j is the height of the heap from bottom-up.
 		//So ~n/2 nodes require 0 work, ~n/4 nodes require at most 1 work, ~n/8 nodes require at most 2 works and so on

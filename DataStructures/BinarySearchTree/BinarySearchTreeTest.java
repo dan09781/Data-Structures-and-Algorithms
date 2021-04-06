@@ -1,4 +1,4 @@
-package DataStructureImplementation.BinarySearchTree;
+package DataStructureImplementation.DataStructures.BinarySearchTree;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -165,6 +165,25 @@ class BinarySearchTreeTest {
         bst.insert(-9);
         bst.insert(-7);
         assertEquals(5, bst.getHeight());
+    }
+
+    @Test
+    void inorderSuccessor(){
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.insert(1);
+        bst.insert(3);
+        bst.insert(5);
+        bst.insert(-12);
+        bst.insert(-1);
+        bst.insert(23);
+        bst.insert(30);
+        bst.insert(4);
+        bst.insert(8);
+        bst.insert(-20);
+        bst.insert(-8);
+        bst.insert(0);
+        bst.insert(-9);
+        bst.insert(-7);
     }
 
     @Test
